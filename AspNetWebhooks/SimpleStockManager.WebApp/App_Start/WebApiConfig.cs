@@ -15,10 +15,17 @@ namespace SimpleStockManager.WebApp
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            // Load Web API controllers and Azure Storage Store for Webhooks producer.
+            // ----------------------------------------------
+            // Producer Webhooks.
+            // ----------------------------------------------
             config.InitializeCustomWebHooks();
-            config.InitializeCustomWebHooksAzureStorage();
+            //config.InitializeCustomWebHooksAzureStorage();
             config.InitializeCustomWebHooksApis();
+
+            // ----------------------------------------------
+            // Receiver Webhooks.
+            // ----------------------------------------------        
+            config.InitializeReceiveCustomWebHooks();
         }
     }
 }

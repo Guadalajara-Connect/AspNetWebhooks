@@ -8,27 +8,30 @@ namespace SimpleSalesOrder.WebApp.Controllers
 {
     public class StockController : Controller
     {
-        private readonly IRepository<ProductViewModel> productRepository;
-
-        public StockController(IRepository<ProductViewModel> productRepository)
+        public ActionResult Index()
         {
-            this.productRepository = productRepository;
+            return View();
         }
 
-        public async Task<ActionResult> AddToStock(ProductViewModel product)
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(ProductViewModel newProduct)
         {
             if (ModelState.IsValid)
             {
-                product.Id = Guid.NewGuid().ToString();
-                // await productRepository.AddAsync(product);
+                newProduct.Id = Guid.NewGuid().ToString();
 
                 // Send a Webhook to all suscribed endpoints.
-                await this.NotifyAllAsync("NewProductInStock", new {  });
+                await this.NotifyAllAsync("NewProductInStock", new { text = "Hola!" });
 
-                return RedirectToAction("Index", "StockDetails", product);
+                return RedirectToAction("Index", "StockDetails", newProduct);
             }
 
-            return View(product);
+            return View(newProduct);
         }
     }
 }
